@@ -15,8 +15,12 @@
     --ink-soft: #5B635E;
     --ink-faint: #8A928C;
     --line: #DFE3DE;
-    --accent: #1F4B45;      /* deep teal — restrained, professional */
+    --accent: #1F4B45;      /* deep teal — networking & core technical */
     --accent-soft: #E7EEEC;
+    --accent-navy: #2A4A6E;      /* navy — cybersecurity & governance */
+    --accent-navy-soft: #E8EDF3;
+    --accent-amber: #A8752C;     /* warm amber — leadership & highlights */
+    --accent-amber-soft: #F4ECDD;
     --maxw: 820px;
   }
   *{ box-sizing:border-box; }
@@ -48,10 +52,14 @@
     border-bottom:1px solid var(--line);
   }
   nav .id{ font-family:'Source Serif 4', serif; font-weight:600; font-size:16px; letter-spacing:0.01em; }
-  nav ul{ list-style:none; display:flex; gap:30px; margin:0; padding:0; }
+  nav ul{
+    list-style:none; display:flex; gap:30px; margin:0; padding:0;
+    overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  nav ul::-webkit-scrollbar{ display:none; }
   nav a{
     text-decoration:none; color:var(--ink-soft); font-size:13px;
-    letter-spacing:0.03em; font-weight:500;
+    letter-spacing:0.03em; font-weight:500; white-space:nowrap;
     padding:4px 1px; border-bottom:1px solid transparent;
     transition:color .2s ease, border-color .2s ease;
   }
@@ -109,15 +117,47 @@
     font-size:12.5px; padding:6px 12px; border-radius:3px;
     background:var(--accent-soft); color:var(--accent); font-weight:500;
   }
+  .tag.navy{ background:var(--accent-navy-soft); color:var(--accent-navy); }
+  .tag.amber{ background:var(--accent-amber-soft); color:var(--accent-amber); }
+  .tag.neutral{ background:var(--paper-alt); color:var(--ink-soft); }
   .skill-card p.note{ margin:16px 0 0; font-size:13px; color:var(--ink-faint); line-height:1.65; }
+
+  /* ---------- proficiency ---------- */
+  .prof-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:36px 40px; box-shadow:0 12px 32px -18px rgba(28,32,30,0.16);
+  }
+  .prof-grid{ display:grid; grid-template-columns:1fr 1fr; column-gap:48px; row-gap:26px; }
+  @media (max-width:820px){ .prof-grid{ grid-template-columns:1fr; } }
+  .prof-item .prof-label-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:9px; font-size:13px;
+  }
+  .prof-item .prof-name{ font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink); font-size:12.5px; }
+  .prof-item .prof-pct{ color:var(--ink-faint); font-variant-numeric:tabular-nums; font-size:13px; }
+  .prof-track{ height:6px; border-radius:4px; background:var(--accent-soft); overflow:hidden; }
+  .prof-fill{
+    height:100%; width:0; border-radius:4px; background:var(--accent);
+    transition:width 1.1s cubic-bezier(.22,.61,.36,1);
+  }
+  .prof-item.in .prof-fill{ width:var(--val); }
+  .prof-item.navy .prof-track{ background:var(--accent-navy-soft); }
+  .prof-item.navy .prof-fill{ background:var(--accent-navy); }
+  .prof-item.amber .prof-track{ background:var(--accent-amber-soft); }
+  .prof-item.amber .prof-fill{ background:var(--accent-amber); }
+  .prof-legend{ display:flex; flex-wrap:wrap; gap:20px; margin-top:26px; padding-top:22px; border-top:1px solid var(--line); }
+  .prof-legend span{ display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--ink-soft); }
+  .prof-legend .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
 
   /* ---------- experience ---------- */
   .timeline{ position:relative; }
   .role{ position:relative; padding:0 0 40px 0; border-bottom:1px solid var(--line); margin-bottom:40px; }
   .role:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .role.current{ border-left:2px solid var(--accent-amber); padding-left:20px; margin-left:-22px; }
   .role-head{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:6px 20px; margin-bottom:4px; }
   .role-head h3{ margin:0; font-family:'Source Serif 4', serif; font-size:20px; font-weight:600; }
   .role-head .dates{ font-size:13px; color:var(--ink-faint); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .role.current .role-head .dates{ color:var(--accent-amber); font-weight:600; }
   .role-org{ color:var(--accent); font-size:14px; margin:0 0 16px; font-weight:500; }
   .role ul{ margin:0; padding-left:19px; color:#333A36; line-height:1.75; font-size:15px; }
   .role li{ margin-bottom:7px; }
@@ -126,22 +166,33 @@
   /* ---------- education ---------- */
   .edu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
   @media (max-width:820px){ .edu-grid{ grid-template-columns:1fr; } }
-  .edu-card{ background:var(--paper); padding:28px 30px; }
+  .edu-card{ background:var(--paper); padding:28px 30px; border-top:3px solid var(--accent-navy); }
   .edu-card .yr{ font-size:12.5px; color:var(--ink-faint); margin-bottom:10px; font-variant-numeric:tabular-nums; }
   .edu-card h3{ margin:0 0 6px; font-family:'Source Serif 4', serif; font-size:18px; font-weight:600; }
-  .edu-card .grade{ color:var(--accent); font-size:13.5px; font-weight:500; }
+  .edu-card .grade{ color:var(--accent-navy); font-size:13.5px; font-weight:500; }
   .edu-card .school{ color:var(--ink-soft); font-size:13.5px; margin-top:10px; }
+  .edu-card .level-tag{
+    display:inline-block; font-size:11px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--accent-navy); background:var(--accent-navy-soft); padding:3px 9px; border-radius:3px; margin-top:12px;
+  }
+  .edu-card .topics-label{ font-size:11.5px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-faint); margin:16px 0 8px; }
+  .edu-card .topics{ margin:0; padding-left:18px; color:#333A36; font-size:13.5px; line-height:1.7; }
+  .edu-card .topics li{ margin-bottom:4px; }
+  .edu-card .topics li::marker{ color:var(--accent-navy); }
 
   /* ---------- volunteering ---------- */
   .vol-card{ display:flex; gap:24px; align-items:flex-start; }
   .vol-card .mark{
-    font-family:'Source Serif 4', serif; color:var(--accent); font-size:17px; flex-shrink:0;
-    border:1px solid var(--line); border-radius:4px; padding:12px 14px; font-weight:600;
-    background:var(--paper-alt);
+    font-family:'Source Serif 4', serif; color:var(--accent-amber); font-size:17px; flex-shrink:0;
+    border:1px solid var(--accent-amber-soft); border-radius:4px; padding:12px 14px; font-weight:600;
+    background:var(--accent-amber-soft);
   }
   .vol-card h3{ margin:0 0 4px; font-family:'Source Serif 4', serif; font-size:19px; font-weight:600; }
+  .vol-card h3 a{ color:var(--ink); text-decoration:none; transition:color .2s ease; }
+  .vol-card h3 a:hover{ color:var(--accent-amber); }
   .vol-card .role-tag{ color:var(--ink-faint); font-size:13px; margin-bottom:14px; display:block; }
   .vol-card ul{ margin:0; padding-left:19px; color:#333A36; font-size:15px; line-height:1.75; }
+  .vol-card li{ margin-bottom:7px; }
   .vol-card li::marker{ color:var(--ink-faint); }
 
   /* ---------- footer ---------- */
@@ -158,8 +209,24 @@
 
   @media (max-width:900px){
     header.hero{ padding-top:88px; }
-    nav ul{ gap:16px; }
-    nav ul li:nth-child(n+4){ display:none; }
+    nav ul{ gap:18px; }
+  }
+
+  @media (max-width:600px){
+    nav{ padding:14px 5vw; }
+    nav .id{ font-size:15px; }
+    nav ul{ gap:14px; }
+    nav a{ font-size:12px; }
+    section{ padding:52px 5vw; }
+    header.hero{ padding:76px 5vw 44px; }
+    .hero-copy p.profile{ font-size:15px; }
+    .contact-row{ gap:8px 16px; }
+    .prof-card{ padding:24px 20px; }
+    .prof-grid{ row-gap:22px; }
+    .skill-card{ padding:22px 20px; }
+    .edu-card{ padding:22px 20px; }
+    .vol-card{ flex-direction:column; gap:14px; }
+    .role-head h3{ font-size:18px; }
   }
 
   @media print{
@@ -177,6 +244,7 @@
   <ul>
     <li><a href="#profile">Profile</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#proficiency">Proficiency</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#volunteering">Volunteering</a></li>
@@ -190,7 +258,6 @@
     <p class="role">IT, Networks &amp; Cybersecurity Professional</p>
     <p class="profile">Technically minded IT professional with a BSc (Hons) 2:1 and a Merit-grade MSc in Cybersecurity, combining academic knowledge with hands-on experience across network infrastructure, systems leadership and IT operations — from high-density Wi-Fi rollouts to full digital infrastructure builds.</p>
     <div class="contact-row">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>07587 000389</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 4h16v16H4z" fill="none"/><path d="M22 6l-10 7L2 6"/></svg>amandhirpaul@gmail.com</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Birmingham, UK</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><a href="https://www.linkedin.com/in/amandhirpaul" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">linkedin.com/in/amandhirpaul</a></span>
@@ -216,7 +283,7 @@
   <div class="skills-grid">
 
     <div class="skill-card">
-      <h3>Networking &amp; Infrastructure</h3>
+      <h3 style="color:var(--accent);">Networking &amp; Infrastructure</h3>
       <div class="tag-list">
         <span class="tag">LAN / WAN / WLAN Design</span>
         <span class="tag">SD-Networks</span>
@@ -227,37 +294,37 @@
     </div>
 
     <div class="skill-card">
-      <h3>Cybersecurity</h3>
+      <h3 style="color:var(--accent-navy);">Cybersecurity</h3>
       <div class="tag-list">
-        <span class="tag">Network Security &amp; Firewalls</span>
-        <span class="tag">Digital Forensics &amp; Investigation</span>
-        <span class="tag">Penetration Testing</span>
-        <span class="tag">Web Security</span>
-        <span class="tag">Cloud Security</span>
-        <span class="tag">Cyber Operations</span>
-        <span class="tag">Governance, Risk &amp; Compliance</span>
-        <span class="tag">Data Governance</span>
+        <span class="tag navy">Network Security &amp; Firewalls</span>
+        <span class="tag navy">Digital Forensics &amp; Investigation</span>
+        <span class="tag navy">Penetration Testing</span>
+        <span class="tag navy">Web Security</span>
+        <span class="tag navy">Cloud Security</span>
+        <span class="tag navy">Cyber Operations</span>
+        <span class="tag navy">Governance, Risk &amp; Compliance</span>
+        <span class="tag navy">Data Governance</span>
       </div>
     </div>
 
     <div class="skill-card">
-      <h3>Delivery &amp; Leadership</h3>
+      <h3 style="color:var(--accent-amber);">Delivery &amp; Leadership</h3>
       <div class="tag-list">
-        <span class="tag">End-to-End Project Delivery</span>
-        <span class="tag">Vendor &amp; Supplier Coordination</span>
-        <span class="tag">Technical Assurance</span>
-        <span class="tag">IT Operations &amp; Uptime</span>
-        <span class="tag">Stakeholder Communication</span>
+        <span class="tag amber">End-to-End Project Delivery</span>
+        <span class="tag amber">Vendor &amp; Supplier Coordination</span>
+        <span class="tag amber">Technical Assurance</span>
+        <span class="tag amber">IT Operations &amp; Uptime</span>
+        <span class="tag amber">Stakeholder Communication</span>
       </div>
     </div>
 
     <div class="skill-card">
       <h3>General</h3>
       <div class="tag-list">
-        <span class="tag">Troubleshooting Under Pressure</span>
-        <span class="tag">Team Leadership &amp; Coaching</span>
-        <span class="tag">Clear Technical Communication</span>
-        <span class="tag">Italian (Working Proficiency)</span>
+        <span class="tag neutral">Troubleshooting Under Pressure</span>
+        <span class="tag neutral">Team Leadership &amp; Coaching</span>
+        <span class="tag neutral">Clear Technical Communication</span>
+        <span class="tag neutral">Italian (Working Proficiency)</span>
       </div>
       <p class="note">Italian is used practically — managing cross-border manufacturer relationships and resolving technical machinery issues directly.</p>
     </div>
@@ -265,12 +332,68 @@
   </div>
 </section>
 
+<section id="proficiency" class="reveal">
+  <div class="eyebrow"><span class="num">03</span> Proficiency</div>
+  <h2>Skill levels</h2>
+  <div class="prof-card">
+    <div class="prof-grid">
+
+      <div class="prof-item" style="--val:92%">
+        <div class="prof-label-row"><span class="prof-name">Networking &amp; Infrastructure</span><span class="prof-pct">92%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item amber" style="--val:88%">
+        <div class="prof-label-row"><span class="prof-name">IT Leadership &amp; Operations</span><span class="prof-pct">88%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item navy" style="--val:85%">
+        <div class="prof-label-row"><span class="prof-name">Network Security &amp; Firewalls</span><span class="prof-pct">85%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item amber" style="--val:80%">
+        <div class="prof-label-row"><span class="prof-name">Vendor &amp; Technical Assurance</span><span class="prof-pct">80%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item navy" style="--val:72%">
+        <div class="prof-label-row"><span class="prof-name">Governance, Risk &amp; Compliance</span><span class="prof-pct">72%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item navy" style="--val:68%">
+        <div class="prof-label-row"><span class="prof-name">Cloud Security</span><span class="prof-pct">68%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item navy" style="--val:64%">
+        <div class="prof-label-row"><span class="prof-name">Digital Forensics &amp; Investigation</span><span class="prof-pct">64%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+      <div class="prof-item navy" style="--val:60%">
+        <div class="prof-label-row"><span class="prof-name">Penetration Testing</span><span class="prof-pct">60%</span></div>
+        <div class="prof-track"><div class="prof-fill"></div></div>
+      </div>
+
+    </div>
+
+    <div class="prof-legend">
+      <span><i class="dot" style="background:var(--accent);"></i>Networking</span>
+      <span><i class="dot" style="background:var(--accent-navy);"></i>Cybersecurity &amp; Governance</span>
+      <span><i class="dot" style="background:var(--accent-amber);"></i>Leadership &amp; Delivery</span>
+    </div>
+  </div>
+</section>
+
 <section id="experience" class="reveal">
-  <div class="eyebrow"><span class="num">03</span> Experience</div>
+  <div class="eyebrow"><span class="num">04</span> Experience</div>
   <h2>Career history</h2>
   <div class="timeline">
 
-    <div class="role">
+    <div class="role current">
       <div class="role-head">
         <h3>Sales Representative — Step-Up Manager</h3>
         <span class="dates">2024 – Present</span>
@@ -318,35 +441,59 @@
 </section>
 
 <section id="education" class="reveal">
-  <div class="eyebrow"><span class="num">04</span> Education</div>
+  <div class="eyebrow"><span class="num">05</span> Education</div>
   <h2>Academic background</h2>
   <div class="edu-grid">
     <div class="edu-card">
-      <div class="yr">2025 – 2026</div>
+      <span class="level-tag">Postgraduate</span>
+      <div class="yr" style="margin-top:12px;">2024 – 2026</div>
       <h3>MSc Cybersecurity</h3>
       <div class="grade">Merit</div>
       <div class="school">Birmingham City University</div>
+      <div class="topics-label">Key topics</div>
+      <ul class="topics">
+        <li>Information Security Governance</li>
+        <li>Advanced Ethical Hacking</li>
+        <li>Digital Forensics</li>
+        <li>Cyber-Physical Systems Security</li>
+        <li>Applied Machine Learning</li>
+        <li>Research Methods &amp; Project Management</li>
+        <li>Individual Dissertation Project</li>
+      </ul>
     </div>
     <div class="edu-card">
-      <div class="yr">2021 – 2024</div>
+      <span class="level-tag" style="color:var(--accent); background:var(--accent-soft);">Undergraduate</span>
+      <div class="yr" style="margin-top:12px;">2021 – 2024</div>
       <h3>BSc (Hons) Cybersecurity</h3>
-      <div class="grade">2:1</div>
+      <div class="grade" style="color:var(--accent);">2:1</div>
       <div class="school">Birmingham City University</div>
+      <div class="topics-label">Key topics</div>
+      <ul class="topics" style="--marker:var(--accent);">
+        <li>Ethical Hacking</li>
+        <li>Applied Cyber Forensics</li>
+        <li>Network &amp; Internet Forensics</li>
+        <li>Systems Security Attacks &amp; Defences</li>
+        <li>Software Security &amp; Applied Cryptography</li>
+        <li>Cloud Computing &amp; AI for Cyber Security</li>
+        <li>Individual Honours Project</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <section id="volunteering" class="reveal">
-  <div class="eyebrow"><span class="num">05</span> Volunteering</div>
+  <div class="eyebrow"><span class="num">06</span> Volunteering</div>
   <h2>Community involvement</h2>
   <div class="vol-card">
     <div class="mark">SWA</div>
     <div>
-      <h3>Sikh Women's Aid</h3>
-      <span class="role-tag">Volunteer — Website &amp; Content</span>
+      <h3><a href="https://www.sikhwomensaid.org.uk/" target="_blank" rel="noopener">Sikh Women's Aid ↗</a></h3>
+      <span class="role-tag">Volunteer — Website &amp; Content Specialist</span>
       <ul>
-        <li>Manages the organisation's website via a third-party platform (Forge).</li>
-        <li>Edits and proofreads page and article content.</li>
+        <li>Manages and updates site structure and published assets via third-party web infrastructure platform (Forge).</li>
+        <li>Edits, formats, and proofreads public articles, announcements, and support resources to ensure high digital accessibility and clarity.</li>
+        <li>Performs regular content maintenance and basic platform troubleshooting to guarantee smooth site navigation and uptime for community support services.</li>
+        <li>Collaborates with stakeholders to align website layout and campaign media with organizational goals.</li>
       </ul>
     </div>
   </div>
@@ -354,12 +501,9 @@
 
 <footer>
   <div class="contact-row">
-    <span>07587 000389</span>
     <span>amandhirpaul@gmail.com</span>
     <span>Birmingham, UK</span>
     <span><a href="https://www.linkedin.com/in/amandhirpaul" target="_blank" rel="noopener" style="color:inherit; text-decoration:none;">linkedin.com/in/amandhirpaul</a></span>
-    <span>Right to work: EU Settlement Scheme</span>
-    <span>Full, clean UK driving licence</span>
   </div>
   <div class="fine">© Aman Paul</div>
 </footer>
@@ -370,6 +514,12 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold:0.15 });
   items.forEach(i=>io.observe(i));
+
+  const profItems = document.querySelectorAll('.prof-item');
+  const profIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); profIo.unobserve(e.target); } });
+  }, { threshold:0.3 });
+  profItems.forEach(i=>io.observe(i));
 </script>
 
 </body>
