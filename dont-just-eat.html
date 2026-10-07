@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Don't Just Eat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--surface:#fff;--ink:#0A0A0A;--mute:#5E5E5E;--line:#E6E6E6;--edge:#0A0A0A;--food:#FF5B00;--gym:#0A0A0A;--gymtxt:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--surface:#1E1E1E;--ink:#fff;--mute:#A8A8A8;--line:#2E2E2E;--edge:#3A3A3A;--food:#FF6A1A;--gym:#fff;--gymtxt:#0A0A0A}}
+:root[data-theme="dark"]{--bg:#141414;--surface:#1E1E1E;--ink:#fff;--mute:#A8A8A8;--line:#2E2E2E;--edge:#3A3A3A;--food:#FF6A1A;--gym:#fff;--gymtxt:#0A0A0A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 Figtree,system-ui,sans-serif}
+h1,h2,h3,.num{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+.app{display:grid;grid-template-columns:1fr}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:4px;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;border:0;background:none;color:var(--mute);font:600 14px Figtree,sans-serif;padding:12px 4px;border-radius:10px;cursor:pointer}
+nav button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+.brand{display:none;font:800 26px/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em;margin:0 6px 24px}
+main{width:100%;max-width:980px;margin:0 auto;padding:16px 16px 100px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px}
+.mb{display:flex;align-items:center;gap:8px;font:800 20px "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.day{display:flex;align-items:center;gap:6px}
+.day button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer}
+.day span{min-width:110px;text-align:center;font-weight:600}
+h1{font-size:clamp(34px,7vw,56px);line-height:1}
+h2{font-size:28px;margin-bottom:14px}
+.sub{color:var(--mute);margin:8px 0 22px;max-width:46ch}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+.panel{position:relative;background:var(--surface);border:2px solid var(--edge);border-radius:20px;padding:18px;overflow:hidden}
+.panel h3{font-size:18px;margin-bottom:10px}
+.big{font:800 clamp(52px,13vw,96px)/.95 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em}
+.unit{color:var(--mute);font-weight:500}
+.bar{height:12px;border-radius:99px;background:var(--line);overflow:hidden;margin:14px 0 8px}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .3s}
+.f i{background:var(--food)}.g i{background:var(--gym)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1 1 90px}
+label{display:block;font-size:13px;color:var(--mute);margin:0 0 4px}
+input,select{width:100%;font:500 16px Figtree,sans-serif;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--gym);outline-offset:2px}
+.btn{border:0;border-radius:12px;padding:13px 18px;font:600 16px Figtree,sans-serif;cursor:pointer;color:var(--ink);background:var(--line)}
+.btn.food{background:var(--food);color:#1a1200}.btn.gym{background:var(--gym);color:var(--gymtxt)}
+.btn.wide{width:100%;margin-top:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.chip{border:1px solid var(--line);background:none;color:var(--ink);border-radius:99px;padding:6px 12px;font:500 14px Figtree,sans-serif;cursor:pointer}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+.item b{display:block}.item small{color:var(--mute)}
+.item>div{flex:1;min-width:0}
+.x{border:0;background:none;color:var(--mute);font-size:20px;cursor:pointer;padding:6px 10px;border-radius:8px}
+.empty{color:var(--mute);padding:6px 0}
+.tag{font-weight:600;font-size:14px;margin:14px 0 2px}
+svg{width:100%;height:auto;display:block}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stats .num{font-size:34px;font-weight:800}.stats small{color:var(--mute)}
+@media(min-width:860px){
+.app{grid-template-columns:230px 1fr}
+nav{position:sticky;top:0;align-self:start;height:100vh;flex-direction:column;justify-content:flex-start;border-top:0;border-right:1px solid var(--line);padding:28px 14px}
+nav button{text-align:left;padding:12px 14px;font-size:16px}
+.brand{display:block}.mb{display:none}
+main{padding:32px 40px 48px}
+.two{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+.k{fill:var(--ink)}.w{fill:var(--bg)}.o{fill:var(--food)}.os{stroke:var(--food)}.ks{stroke:var(--ink)}
+.f i{background:#0A0A0A}.g i{background:var(--food)}
+.panel.f{background:var(--food);border-color:var(--food);color:#0A0A0A}
+.panel.f .unit{color:rgba(10,10,10,.78)}.panel.f .bar{background:rgba(10,10,10,.18)}
+.panel.f .btn.food{background:#0A0A0A;color:#fff}
+.panel.g{background:#000;border-color:#000;color:#fff}
+.panel.g .unit{color:#BDBDBD}.panel.g .bar{background:#333}
+.panel.g .btn.gym{background:var(--food);color:#0A0A0A}
+.deco{position:absolute;top:14px;right:14px;width:56px;height:56px}
+nav button[aria-current="true"]{background:var(--food);color:#0A0A0A}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.hero svg{width:clamp(120px,24vw,210px);flex:none}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:16px 0}
+.empty svg{width:96px}
+.logo{width:34px;height:34px;display:block;flex:none}
+.brand .logo{width:46px;height:46px;margin-bottom:10px}
+.ph{display:flex;align-items:center;gap:12px;margin-bottom:14px}.ph h2{margin:0}.ph svg{width:52px;flex:none}
+</style>
+</head>
+<body>
+<div class="app">
+<nav aria-label="Sections">
+<div class="brand">Don't<br>Just<br>Eat</div>
+<button data-tab="today">Today</button><button data-tab="food">Food</button><button data-tab="gym">Gym</button><button data-tab="progress">Progress</button>
+</nav>
+<main>
+<div class="top"><div class="mb">Don't Just Eat</div>
+<div class="day"><button data-act="prev" aria-label="Previous day">‹</button><span id="dl"></span><button data-act="next" aria-label="Next day">›</button></div></div>
+<div id="view"></div>
+</main>
+</div>
+<script>
+const $=s=>document.querySelector(s),KEY='dje-v1';
+let S=null;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+S=S||{goals:{kcal:2400,pro:160},food:[],gym:[]};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n0=n=>Math.round(+n||0).toLocaleString();
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const today=iso(new Date());let day=today,tab='today';
+const addDays=(d,n)=>{const x=new Date(d+'T12:00');x.setDate(x.getDate()+n);return iso(x)};
+function tot(d){const f=S.food.filter(x=>x.date===d),g=S.gym.filter(x=>x.date===d);
+return{kcal:f.reduce((a,x)=>a+x.kcal,0),p:f.reduce((a,x)=>a+x.p,0),c:f.reduce((a,x)=>a+x.c,0),f:f.reduce((a,x)=>a+x.f,0),
+vol:g.reduce((a,x)=>a+x.sets*x.reps*x.kg,0),sets:g.reduce((a,x)=>a+x.sets,0),ex:new Set(g.map(x=>x.ex.toLowerCase())).size,nf:f.length,ng:g.length}}
+const pct=(a,b)=>Math.min(100,b>0?a/b*100:0);
+
+const LG=`<svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" class="k"/><circle cx="24" cy="24" r="14" fill="none" stroke-width="6" class="os"/><circle cx="24" cy="24" r="4" class="w"/></svg>`;
+const HERO=`<svg viewBox="0 0 240 170" aria-hidden="true"><ellipse cx="120" cy="160" rx="84" ry="7" class="k" opacity=".12"/><circle cx="120" cy="84" r="68" class="k"/><circle cx="120" cy="84" r="51" fill="none" stroke-width="12" class="os"/><circle cx="120" cy="84" r="29" class="w"/><circle cx="120" cy="84" r="8" class="k"/><path d="M114 20l6-8 6 8" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="ks" style="stroke:#fff" opacity=".0"/><g fill="none" stroke-width="5" stroke-linecap="round" class="ks"><path d="M14 22v34M24 22v34M34 22v34"/><path d="M14 56q10 20 20 0"/><path d="M24 70v80" stroke-width="8"/></g><path d="M210 22c13 6 19 28 14 52h-14z" class="k"/><rect x="210" y="74" width="10" height="76" rx="5" class="k"/><g fill="none" stroke-width="5" stroke-linecap="round" class="os"><path d="M190 18l10-8M198 34l14-2M192 50l12 6"/></g></svg>`;
+const IF=`<svg viewBox="0 0 96 80" aria-hidden="true"><circle cx="48" cy="40" r="32" class="k"/><circle cx="48" cy="40" r="22" fill="none" stroke-width="7" class="os"/><circle cx="48" cy="40" r="10" class="w"/></svg>`;
+const IG=`<svg viewBox="0 0 96 80" aria-hidden="true"><rect x="24" y="36" width="48" height="8" rx="4" class="k"/><rect x="12" y="20" width="12" height="40" rx="4" class="o"/><rect x="72" y="20" width="12" height="40" rx="4" class="o"/><rect x="2" y="29" width="10" height="22" rx="3" class="k"/><rect x="84" y="29" width="10" height="22" rx="3" class="k"/></svg>`;
+const IP=`<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="28" width="11" height="16" rx="3" class="k"/><rect x="19" y="18" width="11" height="26" rx="3" class="o"/><rect x="34" y="6" width="11" height="38" rx="3" class="k"/></svg>`;
+const DP=`<svg class="deco" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="#0A0A0A"/><circle cx="28" cy="28" r="17" fill="none" stroke="#fff" stroke-width="6"/><circle cx="28" cy="28" r="5" fill="#fff"/></svg>`;
+const DB=`<svg class="deco" viewBox="0 0 56 56" aria-hidden="true"><rect x="14" y="25" width="28" height="6" rx="3" fill="#fff"/><rect x="7" y="15" width="8" height="26" rx="3" fill="#FF5B00"/><rect x="41" y="15" width="8" height="26" rx="3" fill="#FF5B00"/><rect x="1" y="21" width="6" height="14" rx="2" fill="#fff"/><rect x="49" y="21" width="6" height="14" rx="2" fill="#fff"/></svg>`;
+function vToday(){const t=tot(day),g=S.goals,rem=g.kcal-t.kcal;
+let best=1;for(let i=0;i<30;i++)best=Math.max(best,tot(addDays(day,-i)).vol);
+const msg=t.nf&&t.ng?'Plate and bar are both logged. Good day.':t.nf?"You've eaten. Now lift something.":t.ng?"You've trained. Now fuel it.":'Nothing logged yet. Start with either.';
+return `<div class="hero"><div><h1>Don't just eat.</h1><p class="sub">${msg}</p></div>${HERO}</div>
+<div class="grid two">
+<div class="panel f">${DP}<h3>Plate</h3><div class="big">${rem>=0?n0(rem):'+'+n0(-rem)}</div>
+<div class="unit">${rem>=0?'kcal left today':'kcal over target'}</div>
+<div class="bar"><i style="width:${pct(t.kcal,g.kcal)}%"></i></div>
+<div class="unit">${n0(t.kcal)} of ${n0(g.kcal)} kcal · protein ${n0(t.p)} of ${n0(g.pro)} g</div>
+<button class="btn food wide" data-go="food">Log food</button></div>
+<div class="panel g">${DB}<h3>Bar</h3><div class="big">${n0(t.vol)}</div>
+<div class="unit">kg lifted today</div>
+<div class="bar"><i style="width:${pct(t.vol,best)}%"></i></div>
+<div class="unit">${t.ng?`${t.sets} sets across ${t.ex} exercise${t.ex>1?'s':''}`:'No sets logged yet'}</div>
+<button class="btn gym wide" data-go="gym">Log a set</button></div></div>`}
+
+const meals=['Breakfast','Lunch','Dinner','Snack'];
+function vFood(){const g=S.goals,items=S.food.filter(x=>x.date===day);
+const seen=new Map();S.food.slice().reverse().forEach(x=>{const k=x.name.toLowerCase();if(!seen.has(k))seen.set(k,x)});
+const rec=[...seen.values()].slice(0,8);const h=new Date().getHours();const dm=h<10?0:h<15?1:h<20?2:3;
+const list=meals.map(m=>{const r=items.filter(x=>x.meal===m);return r.length?`<div class="tag">${m} · ${n0(r.reduce((a,x)=>a+x.kcal,0))} kcal</div>`+r.map(x=>`<div class="item"><div><b>${esc(x.name)}</b><small>${n0(x.kcal)} kcal · P ${n0(x.p)} · C ${n0(x.c)} · F ${n0(x.f)}</small></div><button class="x" data-act="delf" data-id="${x.id}" aria-label="Delete ${esc(x.name)}">×</button></div>`).join(''):''}).join('');
+return `<div class="ph">${IF}<h2>Food</h2></div><div class="grid two"><div>
+<div class="panel"><h3>Add food</h3>
+${rec.length?`<div class="chips">${rec.map(x=>`<button class="chip" data-act="refood" data-id="${x.id}">${esc(x.name)}</button>`).join('')}</div>`:''}
+<form id="ff"><div class="row"><div><label for="fm">Meal</label><select id="fm">${meals.map((m,i)=>`<option${i===dm?' selected':''}>${m}</option>`).join('')}</select></div>
+<div style="flex:2 1 160px"><label for="fn">What did you eat?</label><input id="fn" required maxlength="60" placeholder="Chicken and rice"></div></div>
+<div class="row" style="margin-top:10px"><div><label for="fk">kcal</label><input id="fk" type="number" inputmode="numeric" min="0" required></div>
+<div><label for="fp">Protein g</label><input id="fp" type="number" inputmode="decimal" min="0"></div>
+<div><label for="fc">Carbs g</label><input id="fc" type="number" inputmode="decimal" min="0"></div>
+<div><label for="ft">Fat g</label><input id="ft" type="number" inputmode="decimal" min="0"></div></div>
+<button class="btn food wide">Add food</button></form></div>
+<div class="panel" style="margin-top:14px"><h3>Daily targets</h3><div class="row"><div><label for="gk">kcal</label><input id="gk" type="number" inputmode="numeric" min="0" value="${g.kcal}" data-goal="kcal"></div>
+<div><label for="gp">Protein g</label><input id="gp" type="number" inputmode="numeric" min="0" value="${g.pro}" data-goal="pro"></div></div></div></div>
+<div class="panel"><h3>${day===today?'Eaten today':'Eaten this day'}</h3>${list||`<div class="empty">${IF}Nothing logged yet. Add your first meal.</div>`}</div></div>`}
+
+function vGym(){const items=S.gym.filter(x=>x.date===day);
+const seen=new Map();S.gym.slice().reverse().forEach(x=>{const k=x.ex.toLowerCase();if(!seen.has(k))seen.set(k,x)});
+const rec=[...seen.values()];const by={};items.forEach(x=>(by[x.ex]=by[x.ex]||[]).push(x));
+const list=Object.keys(by).map(e=>{const r=by[e];return `<div class="tag">${esc(e)} · ${n0(r.reduce((a,x)=>a+x.sets*x.reps*x.kg,0))} kg</div>`+r.map(x=>`<div class="item"><div><b>${x.sets} × ${x.reps} @ ${x.kg} kg</b><small>Est. 1RM ${n0(x.kg*(1+x.reps/30))} kg</small></div><button class="x" data-act="delg" data-id="${x.id}" aria-label="Delete set">×</button></div>`).join('')}).join('');
+return `<div class="ph">${IG}<h2>Gym</h2></div><div class="grid two">
+<div class="panel"><h3>Log a set</h3>
+${rec.length?`<div class="chips">${rec.slice(0,8).map(x=>`<button class="chip" data-act="rego" data-id="${x.id}">${esc(x.ex)}</button>`).join('')}</div>`:''}
+<form id="gf"><label for="ge">Exercise</label><input id="ge" required maxlength="40" list="exs" placeholder="Back squat" autocomplete="off">
+<datalist id="exs">${rec.map(x=>`<option value="${esc(x.ex)}">`).join('')}</datalist>
+<div class="row" style="margin-top:10px"><div><label for="gs">Sets</label><input id="gs" type="number" inputmode="numeric" min="1" value="3" required></div>
+<div><label for="gr">Reps</label><input id="gr" type="number" inputmode="numeric" min="1" value="8" required></div>
+<div><label for="gw">Weight kg</label><input id="gw" type="number" inputmode="decimal" min="0" step="0.5" value="0" required></div></div>
+<button class="btn gym wide">Add set</button></form></div>
+<div class="panel"><h3>${day===today?'Lifted today':'Lifted this day'}</h3>${list||`<div class="empty">${IG}No sets yet. Log your first exercise.</div>`}</div></div>`}
+
+function chart(vals,labs,col,goal,sel){const W=320,H=130,max=Math.max(goal||0,...vals,1)*1.1,bw=W/vals.length;
+let s=`<svg viewBox="0 0 ${W} ${H+22}" role="img" aria-label="Bar chart for the last 7 days">`;
+vals.forEach((v,i)=>{const h=v/max*H;s+=`<rect x="${i*bw+7}" y="${H-h}" width="${bw-14}" height="${Math.max(h,2)}" rx="6" fill="${col}" opacity="${i===sel?1:.55}"/><text x="${i*bw+bw/2}" y="${H+16}" text-anchor="middle" font-size="11" fill="var(--mute)">${labs[i]}</text>`});
+if(goal){const y=H-goal/max*H;s+=`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="var(--ink)" stroke-dasharray="4 4" opacity=".45"/>`}
+return s+'</svg>'}
+function vProg(){const ds=[...Array(7)].map((_,i)=>addDays(day,i-6)),T=ds.map(tot);
+const labs=ds.map(d=>new Date(d+'T12:00').toLocaleDateString(undefined,{weekday:'short'}));
+const both=T.filter(t=>t.nf&&t.ng).length,fd=T.filter(t=>t.nf);
+const avg=fd.length?fd.reduce((a,t)=>a+t.kcal,0)/fd.length:0;
+return `<div class="ph">${IP}<h2>Progress</h2></div><p class="sub">The seven days ending ${day===today?'today':'on the selected day'}.</p>
+<div class="panel"><div class="stats"><div><div class="num">${both}/7</div><small>days you did both</small></div>
+<div><div class="num">${n0(avg)}</div><small>avg kcal on logged days</small></div>
+<div><div class="num">${n0(T.reduce((a,t)=>a+t.vol,0))}</div><small>kg lifted</small></div></div></div>
+<div class="grid two" style="margin-top:14px"><div class="panel"><h3>Calories</h3>${chart(T.map(t=>t.kcal),labs,'var(--food)',S.goals.kcal,6)}<small class="unit">Dashed line is your target.</small></div>
+<div class="panel"><h3>Volume lifted (kg)</h3>${chart(T.map(t=>t.vol),labs,'var(--gym)',0,6)}</div></div>`}
+
+function render(){
+document.querySelectorAll('nav [data-tab]').forEach(b=>b.setAttribute('aria-current',b.dataset.tab===tab));
+$('#dl').textContent=day===today?'Today':new Date(day+'T12:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
+$('#view').innerHTML={today:vToday,food:vFood,gym:vGym,progress:vProg}[tab]()}
+
+document.addEventListener('click',e=>{
+const t=e.target.closest('[data-tab],[data-act],[data-go]');if(!t)return;
+if(t.dataset.tab){tab=t.dataset.tab;return render()}
+if(t.dataset.go){tab=t.dataset.go;return render()}
+const a=t.dataset.act,id=t.dataset.id;
+if(a==='prev'){day=addDays(day,-1);render()}
+else if(a==='next'){if(day<today){day=addDays(day,1);render()}}
+else if(a==='delf'){S.food=S.food.filter(x=>x.id!==id);save();render()}
+else if(a==='delg'){S.gym=S.gym.filter(x=>x.id!==id);save();render()}
+else if(a==='refood'){const x=S.food.find(y=>y.id===id);if(!x)return;
+$('#fn').value=x.name;$('#fk').value=x.kcal;$('#fp').value=x.p||'';$('#fc').value=x.c||'';$('#ft').value=x.f||'';$('#fm').value=x.meal;$('#fn').focus()}
+else if(a==='rego'){const x=S.gym.find(y=>y.id===id);if(!x)return;
+$('#ge').value=x.ex;$('#gs').value=x.sets;$('#gr').value=x.reps;$('#gw').value=x.kg;$('#gw').focus()}});
+document.addEventListener('submit',e=>{e.preventDefault();
+if(e.target.id==='ff'){S.food.push({id:uid(),date:day,meal:$('#fm').value,name:$('#fn').value.trim(),kcal:+$('#fk').value||0,p:+$('#fp').value||0,c:+$('#fc').value||0,f:+$('#ft').value||0})}
+else if(e.target.id==='gf'){S.gym.push({id:uid(),date:day,ex:$('#ge').value.trim(),sets:+$('#gs').value||1,reps:+$('#gr').value||1,kg:+$('#gw').value||0})}
+else return;save();render()});
+document.addEventListener('change',e=>{const k=e.target.dataset.goal;if(!k)return;
+S.goals[k]=Math.max(0,+e.target.value||0);save()});
+document.querySelectorAll('.brand,.mb').forEach(el=>el.insertAdjacentHTML('afterbegin',LG));render();
+</script>
+</body>
+</html>
